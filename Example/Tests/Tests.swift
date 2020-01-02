@@ -31,19 +31,22 @@ class Tests: XCTestCase {
 		let request = LCTPRequestModel(string: sampleString, attributes: sampleAttributes, containerSize: CGSize(width: 320, height: 560))
 		var cancel = false
 		
-		LightComicsTextPaging.calculate(request: request, isCancelled: &cancel, progress: { (progress, pagingCount) in
-		
-			print("progress: \(progress)\t|\tpagingCount: \(pagingCount)")
-			
-		}, completion: { (result) in
+		LightComicsTextPaging.calculate(request: request, isCancelled: &cancel, progress: nil, completion: { (result) in
 			
 			print("String length:\t\(result.string.count)")
 			print("Number of page:\t\(result.stringRanges.count)")
 			
 		})
 		
+		LightComicsTextPaging.calculate2(request: request, isCancelled: &cancel) { (result) in
+
+			print("2 String length:\t\(result.string.count)")
+			print("2 Number of page:\t\(result.stringRanges.count)")
+			
+		}
+		
 	}
-    
+		
 }
 
 extension String {

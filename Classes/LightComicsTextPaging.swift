@@ -95,5 +95,30 @@ public class LightComicsTextPaging {
 		completion(result)
 	}
 	
-	
+	public static func calculate2(request model: LCTPRequestModel,
+								 isCancelled: inout Bool,
+								 completion: @escaping ((LCTPResultModel) -> Void)) {
+		
+		var result = LCTPResultModel(request: model)
+		
+		let frameSetter = CTFramesetterCreateWithAttributedString(model.attributedString)
+		var stringRange = CFRange(location: 0, length: 0)
+		let attributedStringLength = model.attributedString.length
+		
+		let rect = CGRect(x: 0, y: 0, width: model.containerSize.width, height: model.containerSize.height)
+		let path = CGMutablePath()
+		path.addRect(rect)
+		
+		repeat {
+			let frame = CTFramesetterCreateFrame(frameSetter, stringRange, path, nil)
+			let visibleRange = CTFrameGetVisibleStringRange(frame)
+			let pageRange = NSRange(location: stringRange.location, length: visibleRange.length)
+			result.stringRanges.append(NSStringFromRange(pageRange))
+			stringRange.location += visibleRange.length
+			
+		} while stringRange.location < attributedStringLength && !isCancelled
+		
+		completion(result)
+		
+	}
 }
