@@ -151,6 +151,14 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
+		673C503923BDB9BD0096CFB1 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				67BFAD2423BDADBB004E72EC /* LightComicsTextPaging.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
 		85CF6349FBF0506B624B85E3582850C8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -186,7 +194,7 @@
 		BD7B5B28C62360B0E464551989E8F21C /* LightComicsTextPaging */ = {
 			isa = PBXGroup;
 			children = (
-				67BFAD2423BDADBB004E72EC /* LightComicsTextPaging.swift */,
+				673C503923BDB9BD0096CFB1 /* Classes */,
 				0233194041F93891ADF186572D90F25D /* Pod */,
 				B29E5921821886BB0BD50C999B305E2A /* Support Files */,
 			);
