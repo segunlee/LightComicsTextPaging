@@ -7,14 +7,35 @@
 
 ## Example
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+```swift
+let request = LCTPRequestModel(string: sampleString, attributes: sampleAttributes, containerSize: CGSize(width: 320, height: 560))
+var cancel = false
 
-## Requirements
+LightComicsTextPaging.calculate(request: request, isCancelled: &cancel, progress: nil, completion: { (result) in
+
+  print("String length:\t\(result.string.count)")
+  print("Number of page:\t\(result.stringRanges.count)")
+ 
+  /*
+		result.stringRanges
+		{0, 1136}
+		{1136, 1077}
+		{2213, 1039}
+		{3252, 1005}
+		{4257, 1048}
+		{5305, 985}
+		{6290, 1108}
+		{7398, 1106}
+		...
+  */
+})
+```
+
+**check out Tests.swift**
+
+
 
 ## Installation
-
-LightComicsTextPaging is available through [CocoaPods](https://cocoapods.org). To install
-it, simply add the following line to your Podfile:
 
 ```ruby
 pod 'LightComicsTextPaging'
