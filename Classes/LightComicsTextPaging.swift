@@ -39,21 +39,18 @@ public struct LCTPResultModel {
 
 public class LightComicsTextPaging {
 	
-	public static func calculate(request model: LCTPRequestModel,
+	public static func fastCalculate(request model: LCTPRequestModel,
 						  isCancelled: inout Bool,
 						  progress: ((Float, Int) -> Void)?,
 						  completion: @escaping ((LCTPResultModel) -> Void)) {
 		
 		var result = LCTPResultModel(request: model)
 		
-		let rect = CGRect(x: 0, y: 0, width: model.containerSize.width, height: model.containerSize.height)
 		let attributedString = model.attributedString
-		
 		var calculateContentOffset: UInt64 = 0
 		var calculatePageFinished: Bool = false
 		var progressValue: Float = 0.0
-		let path = CGMutablePath()
-		path.addRect(rect)
+		let path = CGPath(rect: CGRect(origin: .zero, size: model.containerSize), transform: nil)
 		
 		
 		var defaultLength = 8000
@@ -76,6 +73,8 @@ public class LightComicsTextPaging {
 				continue
 			}
 			
+			defaultLength = visibleRange.length + 500
+			
 			result.stringRanges.append(NSStringFromRange(pageRange))
 			if (Int(calculateContentOffset) + visibleRange.length) != attributedString.length {
 				calculateContentOffset += UInt64(visibleRange.length)
@@ -95,19 +94,15 @@ public class LightComicsTextPaging {
 		completion(result)
 	}
 	
-	public static func calculate2(request model: LCTPRequestModel,
-								 isCancelled: inout Bool,
-								 completion: @escaping ((LCTPResultModel) -> Void)) {
+	public static func calculate2(request model: LCTPRequestModel, isCancelled: inout Bool, completion: @escaping ((LCTPResultModel) -> Void)) {
+		// NOTE: From Internet Sources
 		
 		var result = LCTPResultModel(request: model)
 		
 		let frameSetter = CTFramesetterCreateWithAttributedString(model.attributedString)
 		var stringRange = CFRange(location: 0, length: 0)
 		let attributedStringLength = model.attributedString.length
-		
-		let rect = CGRect(x: 0, y: 0, width: model.containerSize.width, height: model.containerSize.height)
-		let path = CGMutablePath()
-		path.addRect(rect)
+		let path = CGPath(rect: CGRect(origin: .zero, size: model.containerSize), transform: nil)
 		
 		repeat {
 			let frame = CTFramesetterCreateFrame(frameSetter, stringRange, path, nil)
@@ -121,4 +116,28 @@ public class LightComicsTextPaging {
 		completion(result)
 		
 	}
+	
+	
+	public static func calculate3(request model: LCTPRequestModel, isCancelled: inout Bool, completion: @escaping ((LCTPResultModel) -> Void)) {
+		// NOTE: From Internet Sources
+		
+		var result = LCTPResultModel(request: model)
+		
+		let attrString = model.attributedString
+		let frameSetter = CTFramesetterCreateWithAttributedString(attrString)
+		let path = CGPath(rect: CGRect(origin: .zero, size: model.containerSize), transform: nil)
+		var range = CFRangeMake(0, 0)
+		var rangeOffset: NSInteger = 0
+		
+		repeat {
+			let frame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(rangeOffset, 0), path, nil)
+			range = CTFrameGetVisibleStringRange(frame)
+			result.stringRanges.append(NSStringFromRange(NSMakeRange(rangeOffset, range.length)))
+			rangeOffset += range.length
+			
+		} while range.location + range.length < attrString.length && !isCancelled
+		
+		completion(result)
+	}
+	
 }
