@@ -1,0 +1,16 @@
+PODS:
+  - LightComicsTextPaging (0.1.0)
+
+DEPENDENCIES:
+  - LightComicsTextPaging (from `../`)
+
+EXTERNAL SOURCES:
+  LightComicsTextPaging:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  LightComicsTextPaging: f5839a4b0802022b226f965d1ba2d6c89eac340f
+
+PODFILE CHECKSUM: 141a6e8a67e9fe2d6142e16f90ab209eace456aa
+
+COCOAPODS: 1.8.4

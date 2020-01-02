@@ -1,0 +1,6 @@
+framework module LightComicsTextPaging {
+  umbrella header "LightComicsTextPaging-umbrella.h"
+
+  export *
+  module * { export * }
+}
