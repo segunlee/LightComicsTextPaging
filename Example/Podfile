@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'LightComicsTextPaging_Example' do
+  pod 'LightComicsTextPaging', :path => '../'
+
+  target 'LightComicsTextPaging_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
